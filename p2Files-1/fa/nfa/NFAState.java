@@ -1,4 +1,6 @@
 package fa.nfa;
 
-public class NFAState {
+import fa.State;
+
+public class NFAState extends State {
 }
