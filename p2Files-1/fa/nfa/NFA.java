@@ -2,9 +2,34 @@ package fa.nfa;
 
 import fa.State;
 
-import java.util.Set;
+import java.util.*;
+import java.util.LinkedHashMap;
 
 public class NFA implements NFAInterface {
+
+    /* instance variables */
+    public LinkedHashSet<Character>sigma;
+    public LinkedHashSet<Character>Q;
+    public String q0;
+    public LinkedHashSet<NFAState>F;
+    public Map<Character, Set<NFAState>> transitions;
+    public LinkedHashMap<NFAState, LinkedHashMap<Character, NFAState>> transitionTable;
+    public LinkedHashSet<Character> eClosures;
+
+    /**
+     * Constructor for Non-Deterministic Finite Automata (NFA)
+     * Instantiates NFA 5-tuple
+     */
+    public NFA() {
+        sigma = new LinkedHashSet<>();
+        Q = new LinkedHashSet<>();
+        q0 = "";
+        F = new LinkedHashSet<>();
+        transitions = new HashMap<>();
+        transitionTable = new LinkedHashMap<>();
+        eClosures = new LinkedHashSet<>();
+    }
+
     @Override
     public boolean addState(String name) {
         return false;
