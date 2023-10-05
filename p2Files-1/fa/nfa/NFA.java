@@ -73,11 +73,16 @@ public class NFA implements NFAInterface {
 
     @Override
     public Set<Character> getSigma() {
-        return null;
+        return sigma;
     }
 
     @Override
     public State getState(String name) {
+        for(NFAState s: states) {
+            if(s.toString().equals(name)) {
+                return s;
+            }
+        }
         return null;
     }
 
