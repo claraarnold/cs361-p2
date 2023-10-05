@@ -34,7 +34,22 @@ public class NFA implements NFAInterface {
 
     @Override
     public boolean addState(String name) {
-        return false;
+        boolean retVal = false;
+        NFAState newState = new NFAState(name);
+        if(states.isEmpty()) {
+            states.add(newState);
+            retVal = true;
+        } else {
+            for(NFAState s : states) {
+                if(s.toString().equals(name)) { // if there is already a state with 'name'
+                    return retVal;
+                }
+            }
+        }
+        if(retVal && !states.contains(newState)) { // if state created successfully
+            states.add(newState);
+        }
+        return retVal;
     }
 
     @Override
