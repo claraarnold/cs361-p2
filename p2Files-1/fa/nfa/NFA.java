@@ -2,15 +2,15 @@ package fa.nfa;
 
 import fa.State;
 
+import java.lang.reflect.Array;
 import java.util.*;
 import java.util.LinkedHashMap;
 
 public class NFA implements NFAInterface {
 
     /* instance variables */
-    public LinkedHashSet<NFAState> states;
     public LinkedHashSet<Character> sigma;
-    public LinkedHashSet<Character> Q;
+    public LinkedHashSet<NFAState> states;
     public String q0;
     public LinkedHashSet<NFAState> F;
     public LinkedHashMap<Character, Set<NFAState>> transitions;
@@ -22,9 +22,8 @@ public class NFA implements NFAInterface {
      * Instantiates NFA 5-tuple
      */
     public NFA() {
-        states = new LinkedHashSet<>();
         sigma = new LinkedHashSet<>();
-        Q = new LinkedHashSet<>();
+        states = new LinkedHashSet<>();
         q0 = "";
         F = new LinkedHashSet<>();
         transitions = new LinkedHashMap<>();
@@ -116,7 +115,11 @@ public class NFA implements NFAInterface {
     public boolean isDFA() {
         // check if each state only has one transition per symbol
         for (NFAState s : states) {
-//            s.transitionTable
+            Iterator<Character> it = sigma.iterator();
+            while (it.hasNext()) {
+                s.transitionTable.get(s);
+            }
+//            s.transitionTable.get(sigma)
         }
         return false;
     }

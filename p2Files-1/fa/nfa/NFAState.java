@@ -11,7 +11,7 @@ public class NFAState extends State {
 
     /* instance variables */
     public LinkedHashMap<Character, Set<NFAState>> transitions;
-    public LinkedHashMap<NFAState, LinkedHashMap<Character, NFAState>> transitionTable;
+//    public LinkedHashMap<NFAState, LinkedHashMap<Character, NFAState>> transitionTable;
 
     /**
      * Constructor to each State's multiple path options
@@ -21,6 +21,6 @@ public class NFAState extends State {
     public NFAState(String name) {
         super(name);
         transitions = new LinkedHashMap<>();
-        transitionTable = new LinkedHashMap<>();
+//        transitionTable = new LinkedHashMap<>();
     }
 }
