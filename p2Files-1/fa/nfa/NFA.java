@@ -57,12 +57,49 @@ public class NFA implements NFAInterface {
 
     @Override
     public boolean setFinal(String name) {
-        return false;
+        boolean retVal = false;
+        boolean done = false;
+        NFAState newState = new NFAState(name);
+        if (states.isEmpty()) {
+            return retVal;
+        } else {
+            while (!done) {
+                for (NFAState s : states) {
+                    if (s.toString().equals(name)) {
+                        finalStates.add(newState);
+                        retVal = true; // successfully added 'name' to finalStates
+                        break;
+                    } else {
+                        retVal = false; // no state with 'name' exists
+                    }
+                }
+                done = true;
+            }
+        }
+        return retVal;
     }
 
     @Override
     public boolean setStart(String name) {
-        return false;
+        boolean retVal = false;
+        boolean done = false;
+        if (states.isEmpty()) {
+            return retVal;
+        } else {
+            while (!done) {
+                for (NFAState s : states) {
+                    if (s.toString().equals(name)) {
+                        startState = name;
+                        retVal = true; // successfully set 'name' to startState
+                        break;
+                    } else {
+                        retVal = false; // no state with 'name' exists
+                    }
+                }
+                done = true;
+            }
+        }
+        return retVal;
     }
 
     @Override
