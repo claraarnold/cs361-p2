@@ -77,7 +77,9 @@ public class NFA implements NFAInterface {
     }
 
     @Override
-    public State getState(String name) {
+    public NFAState getState(String name) {
+        /* this now returns NFAState instead of State,
+        don't know why the test was bugging about this */
         return null;
     }
 
@@ -113,14 +115,20 @@ public class NFA implements NFAInterface {
 
     @Override
     public boolean isDFA() {
+        boolean retVal = false;
+
+        // set of NFAStates
+        Set<NFAState> toStates;
+
         // check if each state only has one transition per symbol
         for (NFAState s : states) {
-            Iterator<Character> it = sigma.iterator();
-            while (it.hasNext()) {
-                s.transitionTable.get(s);
+            for (Character c : sigma) {
+                // TODO: needs a try/catch? probably going to return null at some point
+                toStates = s.transitions.get(c);
+                // if it's a DFA, toStates should have at most 1 element
+                retVal = toStates.size() <= 1;
             }
-//            s.transitionTable.get(sigma)
         }
-        return false;
+        return retVal;
     }
 }
