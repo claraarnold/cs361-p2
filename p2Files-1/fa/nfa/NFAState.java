@@ -10,7 +10,7 @@ import java.util.Set;
 public class NFAState extends State {
 
     /* instance variables */
-    public Map<Character, Set<NFAState>> transitions;
+    public LinkedHashMap<Character, Set<NFAState>> transitions;
     public LinkedHashMap<NFAState, LinkedHashMap<Character, NFAState>> transitionTable;
 
     /**
@@ -20,7 +20,7 @@ public class NFAState extends State {
      */
     public NFAState(String name) {
         super(name);
-        transitions = new HashMap<>();
+        transitions = new LinkedHashMap<>();
         transitionTable = new LinkedHashMap<>();
     }
 }
