@@ -11,6 +11,8 @@ public class NFA implements NFAInterface {
     /* instance variables */
     public LinkedHashSet<Character> sigma;
     public LinkedHashSet<NFAState> states;
+    public LinkedHashSet<NFAState> finalStates;
+    public String startState;
     public String q0;
     public LinkedHashSet<NFAState> F;
     public LinkedHashMap<Character, Set<NFAState>> transitions;
@@ -24,6 +26,8 @@ public class NFA implements NFAInterface {
     public NFA() {
         sigma = new LinkedHashSet<>();
         states = new LinkedHashSet<>();
+        finalStates = new LinkedHashSet<>();
+        startState = "";
         q0 = "";
         F = new LinkedHashSet<>();
         transitions = new LinkedHashMap<>();
@@ -73,24 +77,25 @@ public class NFA implements NFAInterface {
 
     @Override
     public Set<Character> getSigma() {
-        return null;
+        return sigma;
     }
 
     @Override
-    public NFAState getState(String name) {
-        /* this now returns NFAState instead of State,
-        don't know why the test was bugging about this */
+    public State getState(String name) {
         return null;
     }
 
     @Override
     public boolean isFinal(String name) {
+        for (NFAState s : finalStates) {
+            return s.toString().equals(name);
+        }
         return false;
     }
 
     @Override
     public boolean isStart(String name) {
-        return false;
+        return startState.equals(name);
     }
 
     @Override
@@ -128,6 +133,7 @@ public class NFA implements NFAInterface {
                 // if it's a DFA, toStates should have at most 1 element
                 retVal = toStates.size() <= 1;
             }
+//            s.transitionTable.get(sigma)
         }
         return retVal;
     }
