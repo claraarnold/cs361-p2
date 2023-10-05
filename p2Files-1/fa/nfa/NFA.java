@@ -8,11 +8,11 @@ import java.util.LinkedHashMap;
 public class NFA implements NFAInterface {
 
     /* instance variables */
-    public LinkedHashSet<Character>sigma;
-    public LinkedHashSet<Character>Q;
+    public LinkedHashSet<Character> sigma;
+    public LinkedHashSet<Character> Q;
     public String q0;
-    public LinkedHashSet<NFAState>F;
-    public Map<Character, Set<NFAState>> transitions;
+    public LinkedHashSet<NFAState> F;
+    public LinkedHashMap<Character, Set<NFAState>> transitions;
     public LinkedHashMap<NFAState, LinkedHashMap<Character, NFAState>> transitionTable;
     public LinkedHashSet<Character> eClosures;
 
@@ -25,7 +25,7 @@ public class NFA implements NFAInterface {
         Q = new LinkedHashSet<>();
         q0 = "";
         F = new LinkedHashSet<>();
-        transitions = new HashMap<>();
+        transitions = new LinkedHashMap<>();
         transitionTable = new LinkedHashMap<>();
         eClosures = new LinkedHashSet<>();
     }
