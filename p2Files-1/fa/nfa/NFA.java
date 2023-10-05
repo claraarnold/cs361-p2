@@ -14,7 +14,7 @@ public class NFA implements NFAInterface {
     public LinkedHashSet<NFAState> F;
     public LinkedHashMap<Character, Set<NFAState>> transitions;
     public LinkedHashMap<NFAState, LinkedHashMap<Character, NFAState>> transitionTable;
-    public LinkedHashSet<Character> eClosures;
+    public LinkedHashSet<NFAState> eClosures;
 
     /**
      * Constructor for Non-Deterministic Finite Automata (NFA)
