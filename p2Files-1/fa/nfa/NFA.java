@@ -8,12 +8,13 @@ import java.util.LinkedHashMap;
 public class NFA implements NFAInterface {
 
     /* instance variables */
+    public LinkedHashSet<NFAState> states;
     public LinkedHashSet<Character> sigma;
     public LinkedHashSet<Character> Q;
     public String q0;
     public LinkedHashSet<NFAState> F;
     public LinkedHashMap<Character, Set<NFAState>> transitions;
-    public LinkedHashMap<NFAState, LinkedHashMap<Character, NFAState>> transitionTable;
+//    public LinkedHashMap<NFAState, LinkedHashMap<Character, NFAState>> transitionTable;
     public LinkedHashSet<NFAState> eClosures;
 
     /**
@@ -21,12 +22,13 @@ public class NFA implements NFAInterface {
      * Instantiates NFA 5-tuple
      */
     public NFA() {
+        states = new LinkedHashSet<>();
         sigma = new LinkedHashSet<>();
         Q = new LinkedHashSet<>();
         q0 = "";
         F = new LinkedHashSet<>();
         transitions = new LinkedHashMap<>();
-        transitionTable = new LinkedHashMap<>();
+//        transitionTable = new LinkedHashMap<>();
         eClosures = new LinkedHashSet<>();
     }
 
@@ -97,6 +99,10 @@ public class NFA implements NFAInterface {
 
     @Override
     public boolean isDFA() {
+        // check if each state only has one transition per symbol
+        for (NFAState s : states) {
+//            s.transitionTable
+        }
         return false;
     }
 }

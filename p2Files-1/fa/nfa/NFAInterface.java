@@ -37,7 +37,7 @@ public interface NFAInterface extends FAInterface {
 	/**
 	 * Adds the transition to the NFA's delta data structure
 	 * @param fromState is the label of the state where the transition starts
-	 * @param toState is the set of labels of the states where the transition ends
+	 * @param toStates is the set of labels of the states where the transition ends
 	 * @param onSymb is the symbol from the NFA's alphabet.
 	 * @return true if successful and false if one of the states don't exist or the symbol in not in the alphabet
 	 */
