@@ -63,7 +63,7 @@ public class NFA implements NFAInterface {
 
     @Override
     public void addSigma(char symbol) {
-
+        sigma.add(symbol);
     }
 
     @Override
