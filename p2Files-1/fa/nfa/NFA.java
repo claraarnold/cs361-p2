@@ -11,6 +11,8 @@ public class NFA implements NFAInterface {
     /* instance variables */
     public LinkedHashSet<Character> sigma;
     public LinkedHashSet<NFAState> states;
+    public LinkedHashSet<NFAState> finalStates;
+    public String startState;
     public String q0;
     public LinkedHashSet<NFAState> F;
     public LinkedHashMap<Character, Set<NFAState>> transitions;
@@ -24,6 +26,8 @@ public class NFA implements NFAInterface {
     public NFA() {
         sigma = new LinkedHashSet<>();
         states = new LinkedHashSet<>();
+        finalStates = new LinkedHashSet<>();
+        startState = "";
         q0 = "";
         F = new LinkedHashSet<>();
         transitions = new LinkedHashMap<>();
