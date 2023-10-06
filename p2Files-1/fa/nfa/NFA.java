@@ -157,7 +157,66 @@ public class NFA implements NFAInterface {
 
     @Override
     public boolean addTransition(String fromState, Set<String> toStates, char onSymb) {
-        return false;
+        boolean retVal = false;
+        boolean done = false;
+        boolean dneFlagFromState = true;
+        boolean dneFlagToState = true;
+        NFAState current = new NFAState("");
+        NFAState to = new NFAState("");
+
+        // set from state
+        for (NFAState s : states) {
+            if (s.getName().equals(fromState)) {
+                current = s;
+            }
+        }
+
+        // set toState
+        for (NFAState s : states) {
+            if (s.getName().equals(toStates)) {
+                to = s;
+            }
+        }
+
+        // fromState check exist
+        for (NFAState s : states) {
+            if (s.toString().equals(fromState)) {
+                dneFlagFromState = false;
+            }
+        }
+        // return if fromState does not exist
+        if (dneFlagFromState) {
+            return false;
+        }
+
+        // toState check exist
+        for (NFAState s : states) {
+            if (s.toString().equals(toStates)) {
+                dneFlagToState = false;
+            }
+        }
+        // return if toState does not exist
+        if (dneFlagToState) {
+            return false;
+        }
+
+        // alphabet check exist
+        if (sigma.contains(onSymb)) {
+            while(!done) {
+                for (NFAState s : states) {
+                    if (s.toString().equals(fromState)) {
+//                        s.addTransition(onSymb, to);
+//                        transitionTable
+//                                .computeIfAbsent(current, k -> new LinkedHashMap<>())
+//                                .put(onSymb, to);
+//                        retVal = true;
+//                        break;
+                    }
+                }
+                done = true;
+            }
+        }
+        return retVal;
     }
 
     @Override
