@@ -490,4 +490,90 @@ public class NFATest {
 		System.out.println("nfa5 maxCopies done");
 	}
 
+	/* NFA test 6 is a DFA */
+	private NFA nfa6() {
+		NFA nfa = new NFA();
+
+		nfa.addSigma('0');
+		nfa.addSigma('1');
+
+		assertTrue(nfa.addState("a"));
+		assertTrue(nfa.setStart("a"));
+
+		assertTrue(nfa.addState("b"));
+		assertTrue(nfa.setFinal("b"));
+
+		assertFalse(nfa.addState("a")); // already added
+		assertFalse(nfa.setStart("c")); // c is not a state
+		assertFalse(nfa.setFinal("d")); // d is not a state
+
+
+		assertTrue(nfa.addTransition("a", Set.of("a"), '1'));
+		assertTrue(nfa.addTransition("a", Set.of("b"), '0'));
+		assertTrue(nfa.addTransition("b", Set.of("a"), '1'));
+
+		assertFalse(nfa.addTransition("c", Set.of("a"), '0')); // c is not a state
+		assertFalse(nfa.addTransition("a", Set.of("b"), '3')); // 3 is not in sigma
+		assertFalse(nfa.addTransition("b", Set.of("d","c"), 'e')); // d and c are not states
+
+		return nfa;
+	}
+
+	@Test
+	public void test6_1() {
+		NFA nfa = nfa6();
+		System.out.println("nfa6 instantiation done");
+	}
+
+	@Test
+	public void test6_2() {
+		NFA nfa = nfa6();
+		assertNotNull(nfa.getState("a"));
+		assertEquals(nfa.getState("a").getName(), "a");
+		//ensures the same object
+		assertEquals(nfa.getState("a"), nfa.getState("a"));
+		assertTrue(nfa.isStart("a"));
+		assertTrue(nfa.isFinal("b"));
+
+		System.out.println("nfa6 correctness done");
+	}
+
+	@Test
+	public void test6_3() {
+		NFA nfa = nfa1();
+		assertTrue(nfa.isDFA()); // !!!!!! is a DFA
+		System.out.println("nfa6 isDFA done");
+	}
+
+	@Test
+	public void test6_4() {
+		NFA nfa = nfa6();
+		assertEquals(nfa.eClosure(nfa.getState("a")), Set.of(nfa.getState("a")));
+		assertEquals(nfa.eClosure(nfa.getState("b")), Set.of(nfa.getState("b")));
+		System.out.println("nfa6 eClosure done");
+	}
+
+	@Test
+	public void test6_5() {
+		NFA nfa = nfa6();
+		assertFalse(nfa.accepts("1"));
+		assertTrue(nfa.accepts("0"));
+		assertFalse(nfa.accepts("00"));
+		assertTrue(nfa.accepts("1010"));
+		assertFalse(nfa.accepts("e"));
+		System.out.println("nfa6 accepts done");
+	}
+
+	@Test
+	public void test6_6() {
+		NFA nfa = nfa1();
+		assertEquals(nfa.maxCopies("0"), 1);
+		assertEquals(nfa.maxCopies("1"), 1);
+		assertEquals(nfa.maxCopies("00"), 1);
+		assertEquals(nfa.maxCopies("1010"), 1);
+		assertEquals(nfa.maxCopies("e"), 1);
+		assertEquals(nfa.maxCopies("2"), 1);
+		System.out.println("nfa6 maxCopies done");
+	}
+
 }
