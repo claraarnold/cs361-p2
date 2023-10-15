@@ -347,6 +347,7 @@ public class NFATest {
 		assertEquals(nfa.getState("q0"), nfa.getState("q0"));
 		assertTrue(nfa.isStart("q0"));
 		assertFalse(nfa.isStart("q2")); // q0 is the start state
+
 		assertTrue(nfa.isFinal("q0"));
 		assertTrue(nfa.isFinal("q2"));
 		assertFalse(nfa.isFinal("q3")); // q3 not a state
