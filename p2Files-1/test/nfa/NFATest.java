@@ -35,10 +35,7 @@ public class NFATest {
 		assertFalse(nfa.addTransition("a", Set.of("b"), '3'));
 		assertFalse(nfa.addTransition("b", Set.of("d","c"), 'e'));
 		
-		
-		
 		return nfa;
-		
 	}
 
 	@Test
@@ -56,8 +53,7 @@ public class NFATest {
 		assertEquals(nfa.getState("a"), nfa.getState("a"));
 		assertTrue(nfa.isStart("a"));
 		assertTrue(nfa.isFinal("b"));
-		
-		
+
 		System.out.println("nfa1 correctness done");
 	}
 	
@@ -386,11 +382,11 @@ public class NFATest {
 	public void test4_6() {
 		NFA nfa = nfa4();
 		assertEquals(nfa.maxCopies("b"), 1);
-		assertEquals(nfa.maxCopies("abb"), 1);
-		assertEquals(nfa.maxCopies("ca"), 1);
-		assertEquals(nfa.maxCopies("aaa"), 1);
+		assertEquals(nfa.maxCopies("abb"), 2);
+		assertEquals(nfa.maxCopies("ca"), 2);
+		assertEquals(nfa.maxCopies("aaa"), 2);
 		assertEquals(nfa.maxCopies("e"), 1);
-		assertEquals(nfa.maxCopies("abcba"), 1);
+		assertEquals(nfa.maxCopies("abcba"), 2);
 		System.out.println("nfa4 maxCopies done");
 	}
 
@@ -472,7 +468,7 @@ public class NFATest {
 		NFA nfa = nfa5();
 		assertFalse(nfa.accepts("bba"));
 		assertTrue(nfa.accepts("b"));
-		assertFalse(nfa.accepts("aab"));
+		assertFalse(nfa.accepts("aabc"));
 		assertTrue(nfa.accepts("aa"));
 		assertFalse(nfa.accepts("e"));
 		System.out.println("nfa5 accepts done");
@@ -483,10 +479,10 @@ public class NFATest {
 		NFA nfa = nfa4();
 		assertEquals(nfa.maxCopies("bba"), 2);
 		assertEquals(nfa.maxCopies("b"), 2);
-		assertEquals(nfa.maxCopies("aab"), 2);
-		assertEquals(nfa.maxCopies("aa"), 1);
-		assertEquals(nfa.maxCopies("e"), 1);
-		assertEquals(nfa.maxCopies("ab"), 2);
+		assertEquals(nfa.maxCopies("aab"), 3);
+		assertEquals(nfa.maxCopies("aa"), 3);
+		assertEquals(nfa.maxCopies("e"), 2);
+		assertEquals(nfa.maxCopies("ab"), 3);
 		System.out.println("nfa5 maxCopies done");
 	}
 

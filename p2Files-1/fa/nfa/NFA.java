@@ -147,7 +147,25 @@ public class NFA implements NFAInterface {
 
     @Override
     public Set<NFAState> eClosure(NFAState s) {
-        return null;
+        LinkedHashSet<NFAState> epsilonClosure = new LinkedHashSet<>();
+        Stack<NFAState> stack = new Stack<>(); // to perform DFS
+
+        stack.push(s);
+        /* Loop through stack until empty to get epsilon transitions with 'e' */
+        while(!stack.isEmpty()) {
+            NFAState currState = stack.pop();
+            epsilonClosure.add(currState); // add currState to epsilonClosure
+            Set<NFAState> epsilonTransitions = eClosure(currState);
+            for(NFAState nextState : epsilonTransitions) {
+                // push unvisited states onto stack
+                if(!epsilonClosure.contains(nextState)) {
+                    stack.push(nextState);
+                }
+            }
+        }
+        eClosures = epsilonClosure; // updating instance var.
+
+        return epsilonClosure;
     }
 
     @Override
