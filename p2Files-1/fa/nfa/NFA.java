@@ -142,7 +142,13 @@ public class NFA implements NFAInterface {
 
     @Override
     public Set<NFAState> getToState(NFAState from, char onSymb) {
-        return null;
+        if(transitions.containsKey(onSymb)) {
+            Set<NFAState> transitionStates = transitions.get(onSymb);
+            if(transitionStates != null) {
+                return transitionStates; // returning transition states for the symb
+            }
+        }
+        return null; // if no transition states for symb
     }
 
     @Override
