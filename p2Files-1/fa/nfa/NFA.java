@@ -190,16 +190,7 @@ public class NFA implements NFAInterface {
             boolean done = false;
             boolean dneFlagFromState = true;
             boolean dneFlagToState = true;
-            NFAState current = new NFAState("");
             NFAState to = new NFAState("");
-
-            // don't need to set fromState, just need to check if it exists
-            // set from state
-//            for (NFAState s : states) {
-//                if (s.getName().equals(fromState)) {
-//                    current = s;
-//                }
-//            }
 
             // fromState check exist
             for (NFAState s : states) {
@@ -228,29 +219,6 @@ public class NFA implements NFAInterface {
             if (dneFlagToState) {
                 return false;
             }
-
-            /* need this if we already set fromState?? */
-            // fromState check exist
-//            for (NFAState s : states) {
-//                if (s.toString().equals(fromState)) {
-//                    dneFlagFromState = false;
-//                }
-//            }
-//            // return if fromState does not exist
-//            if (dneFlagFromState) {
-//                return false;
-//            }
-
-            // toState check exist
-//            for (NFAState s : states) {
-//                if (s.toString().equals(toStates)) {
-//                    dneFlagToState = false;
-//                }
-//            }
-            // return if toState does not exist
-//            if (dneFlagToState) {
-//                return false;
-//            }
 
             // alphabet check exist
             if (sigma.contains(onSymb)) {
