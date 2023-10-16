@@ -23,4 +23,18 @@ public class NFAState extends State {
         transitions = new LinkedHashMap<>();
 //        transitionTable = new LinkedHashMap<>();
     }
+
+    public void addTransition(char onSymb, NFAState toState) {
+        /* if transitions contains the transition character,
+           get the set and add to it. if not, put the character
+           and the set of whatever state is passed in.
+         */
+        if (transitions.containsKey(onSymb)) {
+            Set<NFAState> existingSet = transitions.get(onSymb);
+
+            existingSet.add(toState);
+        } else {
+            transitions.put(onSymb, Set.of(toState));
+        }
+    }
 }

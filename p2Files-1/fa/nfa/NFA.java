@@ -49,8 +49,9 @@ public class NFA implements NFAInterface {
                 }
             }
         }
-        if(retVal && !states.contains(newState)) { // if state created successfully
+        if(!retVal) { // if state created successfully
             states.add(newState);
+            retVal = true;
         }
         return retVal;
     }
@@ -182,62 +183,70 @@ public class NFA implements NFAInterface {
     @Override
     public boolean addTransition(String fromState, Set<String> toStates, char onSymb) {
         boolean retVal = false;
-        boolean done = false;
-        boolean dneFlagFromState = true;
-        boolean dneFlagToState = true;
-        NFAState current = new NFAState("");
-        NFAState to = new NFAState("");
 
-        // set from state
-        for (NFAState s : states) {
-            if (s.getName().equals(fromState)) {
-                current = s;
+        // pretty sure this all has to loop through the size of toStates, executed by this for loop:
+        for (int i = 0; i < toStates.size(); i++) {
+            boolean done = false;
+            boolean dneFlagFromState = true;
+            boolean dneFlagToState = true;
+            NFAState current = new NFAState("");
+            NFAState to = new NFAState("");
+
+            // set from state
+            for (NFAState s : states) {
+                if (s.getName().equals(fromState)) {
+                    current = s;
+                }
             }
-        }
 
-        // set toState
-        for (NFAState s : states) {
-            if (s.getName().equals(toStates)) {
-                to = s;
-            }
-        }
-
-        // fromState check exist
-        for (NFAState s : states) {
-            if (s.toString().equals(fromState)) {
-                dneFlagFromState = false;
-            }
-        }
-        // return if fromState does not exist
-        if (dneFlagFromState) {
-            return false;
-        }
-
-        // toState check exist
-        for (NFAState s : states) {
-            if (s.toString().equals(toStates)) {
-                dneFlagToState = false;
-            }
-        }
-        // return if toState does not exist
-        if (dneFlagToState) {
-            return false;
-        }
-
-        // alphabet check exist
-        if (sigma.contains(onSymb)) {
-            while(!done) {
-                for (NFAState s : states) {
-                    if (s.toString().equals(fromState)) {
-//                        s.addTransition(onSymb, to);
-//                        transitionTable
-//                                .computeIfAbsent(current, k -> new LinkedHashMap<>())
-//                                .put(onSymb, to);
-//                        retVal = true;
-//                        break;
+            // set toState
+            for (NFAState s : states) {
+                for (String z : toStates) {
+                    if (s.getName().equals(z)) {
+                        to = s;
+                        break;
                     }
                 }
-                done = true;
+            }
+
+            /* need this if we already set fromState?? */
+            // fromState check exist
+//            for (NFAState s : states) {
+//                if (s.toString().equals(fromState)) {
+//                    dneFlagFromState = false;
+//                }
+//            }
+//            // return if fromState does not exist
+//            if (dneFlagFromState) {
+//                return false;
+//            }
+
+            // toState check exist
+//            for (NFAState s : states) {
+//                if (s.toString().equals(toStates)) {
+//                    dneFlagToState = false;
+//                }
+//            }
+            // return if toState does not exist
+//            if (dneFlagToState) {
+//                return false;
+//            }
+
+            // alphabet check exist
+            if (sigma.contains(onSymb)) {
+                while (!done) {
+                    for (NFAState s : states) {
+                        if (s.toString().equals(fromState)) {
+                        s.addTransition(onSymb, to);
+                        transitionTable
+                                .computeIfAbsent(current, k -> new LinkedHashMap<>())
+                                .put(onSymb, to);
+                        retVal = true;
+                        break;
+                        }
+                    }
+                    done = true;
+                }
             }
         }
         return retVal;
