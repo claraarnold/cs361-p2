@@ -25,6 +25,7 @@ public class NFA implements NFAInterface {
      */
     public NFA() {
         sigma = new LinkedHashSet<>();
+        sigma.add('e');     // epsilon is a part of every alphabet
         states = new LinkedHashSet<>();
         finalStates = new LinkedHashSet<>();
         startState = "";
@@ -192,11 +193,23 @@ public class NFA implements NFAInterface {
             NFAState current = new NFAState("");
             NFAState to = new NFAState("");
 
+            // don't need to set fromState, just need to check if it exists
             // set from state
+//            for (NFAState s : states) {
+//                if (s.getName().equals(fromState)) {
+//                    current = s;
+//                }
+//            }
+
+            // fromState check exist
             for (NFAState s : states) {
-                if (s.getName().equals(fromState)) {
-                    current = s;
+                if (s.toString().equals(fromState)) {
+                    dneFlagFromState = false;
+                    break;
                 }
+            }
+            if (dneFlagFromState) {
+                return false;
             }
 
             // set toState
@@ -204,9 +217,16 @@ public class NFA implements NFAInterface {
                 for (String z : toStates) {
                     if (s.getName().equals(z)) {
                         to = s;
+                        dneFlagToState = false;
                         break;
                     }
                 }
+            }
+
+            // return if toState does not exist
+            // (will be true if it doesn't find it while setting)
+            if (dneFlagToState) {
+                return false;
             }
 
             /* need this if we already set fromState?? */
@@ -238,9 +258,9 @@ public class NFA implements NFAInterface {
                     for (NFAState s : states) {
                         if (s.toString().equals(fromState)) {
                         s.addTransition(onSymb, to);
-                        transitionTable
-                                .computeIfAbsent(current, k -> new LinkedHashMap<>())
-                                .put(onSymb, to);
+//                        transitions
+//                                .computeIfAbsent(current, k -> new LinkedHashMap<>())
+//                                .put(onSymb, to);
                         retVal = true;
                         break;
                         }
