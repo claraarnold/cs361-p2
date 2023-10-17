@@ -186,7 +186,19 @@ public class NFA implements NFAInterface {
 
     @Override
     public int maxCopies(String s) {
-        return 0;
+        int retVal = 0;
+        int compVal = 0;
+        // walk through the transitions of each state given the string
+        // only take the highest value of retVal
+
+
+        for (NFAState state : states) {
+            for (Character c : s.toCharArray()) {
+                Set<NFAState> z = state.transitions.get(c);
+            }
+        }
+
+        return retVal;
     }
 
     @Override

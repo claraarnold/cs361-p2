@@ -1,4 +1,4 @@
-# Project #: Project 2 (Nondeterministic Finite Automata)
+# Project 2 (Nondeterministic Finite Automata)
 
 * Author: Joe Lathrop, Clara Arnold
 * Class: CS361 001
