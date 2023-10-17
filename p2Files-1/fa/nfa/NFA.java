@@ -250,10 +250,20 @@ public class NFA implements NFAInterface {
         // check if each state only has one transition per symbol
         for (NFAState s : states) {
             for (Character c : sigma) {
-                // TODO: needs a try/catch? probably going to return null at some point
-                toStates = s.transitions.get(c);
-                // if it's a DFA, toStates should have at most 1 element
-                retVal = toStates.size() <= 1;
+                if (s.transitions.get(c) != null) {
+                    toStates = s.transitions.get(c);
+                    if (c == 'e') {
+                        retVal = !toStates.isEmpty();
+                        if (retVal) {
+                            return false;
+                        }
+                    }
+                    // if it's a DFA, toStates should have at most 1 element
+                    retVal = toStates.size() <= 1; // check if e has at least one transition
+                    if (!retVal) {
+                        return false;
+                    }
+                }
             }
 //            s.transitionTable.get(sigma)
         }
