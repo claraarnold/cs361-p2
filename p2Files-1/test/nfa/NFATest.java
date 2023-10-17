@@ -637,7 +637,7 @@ public class NFATest {
 	@Test
 	public void test7_4() {
 		NFA nfa = nfa7();
-		assertEquals(nfa.eClosure(nfa.getState("q0")), Set.of(nfa.getState("q0"), nfa.getState("q1"), nfa.getState("q2")));
+		assertEquals(nfa.eClosure(nfa.getState("q0")), Set.of(nfa.getState("q0"), nfa.getState("q1"), nfa.getState("q2"), nfa.getState("q3")));
 		assertEquals(nfa.eClosure(nfa.getState("q1")), Set.of(nfa.getState("q1"), nfa.getState("q3")));
 		assertEquals(nfa.eClosure(nfa.getState("q2")), Set.of(nfa.getState("q2")));
 		assertEquals(nfa.eClosure(nfa.getState("q3")), Set.of(nfa.getState("q3")));
