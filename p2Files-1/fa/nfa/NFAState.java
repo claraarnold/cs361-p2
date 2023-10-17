@@ -8,7 +8,7 @@ public class NFAState extends State {
 
     /* instance variables */
     public LinkedHashMap<Character, LinkedHashSet<NFAState>> transitions;
-//    public LinkedHashMap<NFAState, LinkedHashMap<Character, NFAState>> transitionTable;
+    LinkedHashSet<NFAState> eTransitions = new LinkedHashSet<>();
 
     /**
      * Constructor to each State's multiple path options
@@ -36,12 +36,26 @@ public class NFAState extends State {
          */
         if (transitions.containsKey(onSymb)) {
             Set<NFAState> existingSet = transitions.get(onSymb);
-
             existingSet.add(toState);
+            if (onSymb == 'e') {
+                eTransitions.add(toState);
+            }
         } else {
             LinkedHashSet<NFAState> s = new LinkedHashSet<>();
             s.add(toState);
             transitions.put(onSymb, s);
+            if (onSymb == 'e') {
+                eTransitions.add(toState);
+            }
         }
+    }
+
+    /**
+     * Returns the set of epsilon transitions from the called NFAState
+     *
+     * @return - Set of NFAStates
+     */
+    public Set<NFAState> getEpsilonTransitions() {
+        return eTransitions;
     }
 }

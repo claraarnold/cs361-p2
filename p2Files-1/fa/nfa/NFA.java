@@ -160,23 +160,26 @@ public class NFA implements NFAInterface {
 
     @Override
     public Set<NFAState> eClosure(NFAState s) {
-        LinkedHashSet<NFAState> epsilonClosure = new LinkedHashSet<>();
-        Stack<NFAState> stack = new Stack<>(); // to perform DFS
+       Set<NFAState> epsilonClosure = new LinkedHashSet<>();
+       Set<NFAState> visited = new LinkedHashSet<>();
 
+       // stack for DFS
+        Stack<NFAState> stack = new Stack<>();
         stack.push(s);
-        /* Loop through stack until empty to get epsilon transitions with 'e' */
-        while(!stack.isEmpty()) {
-            NFAState currState = stack.pop();
-            epsilonClosure.add(currState); // add currState to epsilonClosure
-            Set<NFAState> epsilonTransitions = eClosure(currState);
-            for(NFAState nextState : epsilonTransitions) {
-                // push unvisited states onto stack
-                if(!epsilonClosure.contains(nextState)) {
-                    stack.push(nextState);
+
+        while (!stack.isEmpty()) {
+            NFAState current = stack.pop();
+
+            if (!visited.contains(current)) {
+                epsilonClosure.add(current);
+                visited.add(current);
+
+                // add all states reachable from current on an 'e'
+                for (NFAState next : current.getEpsilonTransitions()) {
+                    stack.push(next);
                 }
             }
         }
-        eClosures = epsilonClosure; // updating instance var.
 
         return epsilonClosure;
     }
