@@ -595,11 +595,13 @@ public class NFATest {
 
 
 		assertTrue(nfa.addTransition("q0", Set.of("q0"), '0'));
-		assertTrue(nfa.addTransition("q0", Set.of("q1", "q2"), 'e'));
+		assertTrue(nfa.addTransition("q0", Set.of("q1"), 'e'));
+		assertTrue(nfa.addTransition("q0", Set.of("q2"), 'e'));
 		assertTrue(nfa.addTransition("q1", Set.of("q3"), 'e'));
 		assertTrue(nfa.addTransition("q2", Set.of("q4"), '1'));
 		assertTrue(nfa.addTransition("q3", Set.of("q4"), '1'));
-		assertTrue(nfa.addTransition("q4", Set.of("q4", "q5"), '0'));
+		assertTrue(nfa.addTransition("q4", Set.of("q4"), '0'));
+		assertTrue(nfa.addTransition("q4", Set.of("q5"), '0'));
 
 		assertFalse(nfa.addTransition("q6", Set.of("q0"), '0')); // q6 is not a state
 		assertFalse(nfa.addTransition("q0", Set.of("q2"), 'a')); // 3 is not in sigma
