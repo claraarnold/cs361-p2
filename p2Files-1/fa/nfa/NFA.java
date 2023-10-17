@@ -131,10 +131,15 @@ public class NFA implements NFAInterface {
 
     @Override
     public boolean isFinal(String name) {
+        // change to retVal
+        boolean retVal = false;
         for (NFAState s : finalStates) {
-            return s.toString().equals(name);
+            if (s.toString().equals(name)) {
+                retVal = true;
+                break;
+            }
         }
-        return false;
+        return retVal;
     }
 
     @Override
@@ -225,12 +230,12 @@ public class NFA implements NFAInterface {
                 while (!done) {
                     for (NFAState s : states) {
                         if (s.toString().equals(fromState)) {
-                        s.addTransition(onSymb, to);
-//                        transitions
+                            s.addTransition(onSymb, to);
+//                          transitions
 //                                .computeIfAbsent(current, k -> new LinkedHashMap<>())
 //                                .put(onSymb, to);
-                        retVal = true;
-                        break;
+                            retVal = true;
+                            break;
                         }
                     }
                     done = true;

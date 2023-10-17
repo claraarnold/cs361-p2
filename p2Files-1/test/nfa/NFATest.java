@@ -536,7 +536,7 @@ public class NFATest {
 
 	@Test
 	public void test6_3() {
-		NFA nfa = nfa1();
+		NFA nfa = nfa6();
 		assertTrue(nfa.isDFA()); // !!!!!! is a DFA
 		System.out.println("nfa6 isDFA done");
 	}
