@@ -111,32 +111,69 @@ public class NFA implements NFAInterface {
 
     @Override
     public boolean accepts(String s) {
-        boolean retVal = false;
-        NFAState current = new NFAState("");
-        for (NFAState state : states) {
-            if (isStart(state.getName())) {
-                current = state;
+        Set<NFAState> currStates = eClosure(getState(startState)); // initial state
+        Queue<Set<NFAState>> queue = new LinkedList<>();
+        queue.add(currStates);
+
+        int currentPosition = 0;
+
+        while(!queue.isEmpty() && currentPosition < s.length()) {
+            char currentSigma = s.charAt(currentPosition);
+            Set<NFAState> nextStates = new HashSet<>();
+
+            for(NFAState state : currStates) {
+                Set<NFAState> transitionStates = transitions.get(currentSigma); // getting transitions for sigma
+
+                if(transitionStates != null) {
+                    nextStates.addAll(transitionStates);
+                }
+            }
+
+            if(nextStates.isEmpty()) {
+                return false; // no possible transitions for current sigma
+            }
+
+            queue.add(nextStates);
+            currStates = nextStates;
+            currentPosition++;
+        }
+
+        for(Set<NFAState> statesSet : queue) {
+            for(NFAState state : statesSet) {
+                if(isFinal(state.getName())) {
+                    return true; // at least one copy is in accept state
+                }
             }
         }
 
-        // loop through string
-        for (Character c : s.toCharArray()) {
-            // symbol not in language
-            if (!sigma.contains(c)) {
-                return false;
-            }
+        return false; // no accept state found
 
-            // move through machine
-            try {
-//                current.getNextState();
-            } catch (NullPointerException e) {
-                return false;
-            }
-        }
-
-
-
-        return retVal;
+//        boolean retVal = false;
+//        NFAState current = new NFAState("");
+//        for (NFAState state : states) {
+//            if (isStart(state.getName())) {
+//                current = state;
+//            }
+//        }
+//
+//        // loop through string
+//        for (Character c : s.toCharArray()) {
+//            // symbol not in language
+//            if (!sigma.contains(c)) {
+//                return false;
+//            }
+//
+//            // move through machine
+//            try {
+////                current.getNextState();
+//            } catch (NullPointerException e) {
+//                return false;
+//            }
+//        }
+//
+//
+//
+//        return retVal;
     }
 
     @Override
