@@ -6,36 +6,40 @@
 
 ## Overview
 
-Concisely explain what the program does. If this exceeds a couple of
-sentences, you're going too far. Generally you should be pulling this
-right from the project specification. Please don't just cut and
-paste, but paraphrase what is stated in the project specification.
+This program can create an NFA by adding states and transition, including epsilon
+transitions. It can check if the created NFA is actually a DFA, it can create the
+E-Closure for each of the system's states, it can check if strings are accepted
+or rejected by the system, and can trace the system given a string it accepts
+or rejects.
 
 ## Reflection
 
-Write a brief (2-3 paragraph) reflection describing your experience with this
-project. Answer the following questions (but feel free to add other insights):
-- What worked well and what was a struggle?
-- What concepts still aren't quite clear?
-- What techniques did you use to make your code easy to debug and modify?
-- What would you change about your design process?
-- If you could go back in time, what would you tell yourself about doing this project?
+The first part of this project, getting an NFA to successfully be created by the test
+class, was simple due to the use of our DFA implementation from P1. We only had to go through
+and fix a few of the methods to work correctly for an NFA system. Next, we worked on `isDFA()`
+where we checked each state to see if they had only one transition per sigma character by looping
+through each state's transitions. We then worked on `eClosure()` which was also fairly simple 
+to implement by following the DFS algorithm and searching for the transitions with an `e` character.
+
+Finally, we began our work on `maxCopies()` and `accepts()` which gave us some trouble as expected
+by the project description. We first set out to understand what `maxCopies()` was doing, essentially
+a trace tree for an NFA, and then tried implementing it. The part we struggled with most was
 
 ## Compiling and Using
 
-This section should tell the user how to compile your code.  It is
-also appropriate to instruct the user how to use your code. Does your
-program require user input? If so, what does your user need to know
-about it to use it as quickly as possible?
+To compile the program:
+- $ javac -cp .:/usr/share/java/junit.jar ./test/nfa/NFATest.java
+
+To run NFATest:
+- $ java -cp .:/usr/share/java/junit.jar:/usr/share/java/hamcrest/core.jar
+  org.junit.runner.JUnitCore test.nfa.NFATest
 
 ## Sources used
 
-If you used any sources outside of the lecture notes, class lab files,
-or text book you need to list them here. If you looked something up on
-stackoverflow.com and fail to cite it in this section it will be
-considered plagiarism and be dealt with accordingly. So be safe CITE!
+- Lecture notes
+- P2 project description
+- java.util.Set interface
+- java.util.Map interface
+- Our P1 implementation
 
 ----------
-This README template is using Markdown. To preview your README output,
-you can copy your file contents to a Markdown editor/previewer such
-as [https://stackedit.io/editor](https://stackedit.io/editor).
