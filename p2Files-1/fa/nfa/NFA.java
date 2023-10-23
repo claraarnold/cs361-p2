@@ -235,14 +235,18 @@ public class NFA implements NFAInterface {
                 visited.add(currentState);
 
                 for (Character c : s.toCharArray()) {
-                    Set<NFAState> nextStates = currentState.getNextState(c);
-                    queue.addAll(nextStates);
+                    try {
+                        Set<NFAState> nextStates = currentState.getNextState(c);
+                        queue.addAll(nextStates);
+                    } catch (NullPointerException ignored) {
+                        // ignored catch body
+                    }
                 }
 
                 Set<NFAState> eTransitions = eClosure(currentState);
                 queue.addAll(eTransitions);
 
-                maxCopies = Math.max(maxCopies, queue.size());
+                maxCopies = Math.max(maxCopies, queue.size() - 1);
             }
         }
 
