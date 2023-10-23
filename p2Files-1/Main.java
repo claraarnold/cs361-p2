@@ -19,7 +19,7 @@ public class Main {
         nfa.addTransition("a", Set.of("b"), '1');
         nfa.addTransition("b", Set.of("a"), 'e');
 
-        int ret = nfa.maxCopies("1");
+        int ret = nfa.maxCopies("0");
 
         System.out.println(ret);
     }

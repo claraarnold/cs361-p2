@@ -211,36 +211,42 @@ public class NFA implements NFAInterface {
 
     @Override
     public int maxCopies(String s) {
-        int retVal = 0;
+        int maxCopies = 1;
         int compVal = 0;
-        NFAState visited = new NFAState("");
-
-        Queue<NFAState> queue = new LinkedList<>();
+        Set<NFAState> visited = new LinkedHashSet<>();
+//        Set<NFAState> startState = new LinkedHashSet<>();
+        Queue<NFAState> queue = new ArrayDeque<>();
 
         // start state
-        NFAState current = new NFAState("");
+        NFAState start = new NFAState("");
         for (NFAState state : states) {
             if (isStart(state.getName())) {
-                current = state;
+                start = state;
+//                startState.add(state);
             }
         }
 
-        for (Character c : s.toCharArray()) {
-            Set<NFAState> nextStates = current.getNextState(c);
-            for (NFAState state : nextStates) {
-                Set<NFAState> closureStates = eClosure(state);
+        queue.add(start);
+
+        while (!queue.isEmpty()) {
+            NFAState currentState = queue.poll();
+
+            if (!visited.contains(currentState)) {
+                visited.add(currentState);
+
+                for (Character c : s.toCharArray()) {
+                    Set<NFAState> nextStates = currentState.getNextState(c);
+                    queue.addAll(nextStates);
+                }
+
+                Set<NFAState> eTransitions = eClosure(currentState);
+                queue.addAll(eTransitions);
+
+                maxCopies = Math.max(maxCopies, queue.size());
             }
         }
 
-
-//
-//        for (NFAState state : states) {
-//            for (Character c : s.toCharArray()) {
-//                Set<NFAState> z = state.transitions.get(c);
-//            }
-//        }
-
-        return retVal;
+        return maxCopies;
     }
 
     @Override
