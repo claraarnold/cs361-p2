@@ -23,7 +23,10 @@ to implement by following the DFS algorithm and searching for the transitions wi
 
 Finally, we began our work on `maxCopies()` and `accepts()` which gave us some trouble as expected
 by the project description. We first set out to understand what `maxCopies()` was doing, essentially
-a trace tree for an NFA, and then tried implementing it. The part we struggled with most was
+a trace tree for an NFA, and then tried implementing it. The part we struggled with most was getting
+the correct number of states to be counted, we kept counting the first state too many times with our
+`visited` variable which was causing our `maxCopies` variable to have either one too many or not 
+enough states within it.
 
 ## Compiling and Using
 
