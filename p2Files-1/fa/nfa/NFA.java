@@ -111,7 +111,32 @@ public class NFA implements NFAInterface {
 
     @Override
     public boolean accepts(String s) {
-        return false;
+        boolean retVal = false;
+        NFAState current = new NFAState("");
+        for (NFAState state : states) {
+            if (isStart(state.getName())) {
+                current = state;
+            }
+        }
+
+        // loop through string
+        for (Character c : s.toCharArray()) {
+            // symbol not in language
+            if (!sigma.contains(c)) {
+                return false;
+            }
+
+            // move through machine
+            try {
+//                current.getNextState();
+            } catch (NullPointerException e) {
+                return false;
+            }
+        }
+
+
+
+        return retVal;
     }
 
     @Override
@@ -188,15 +213,32 @@ public class NFA implements NFAInterface {
     public int maxCopies(String s) {
         int retVal = 0;
         int compVal = 0;
-        // walk through the transitions of each state given the string
-        // only take the highest value of retVal
+        NFAState visited = new NFAState("");
 
+        Queue<NFAState> queue = new LinkedList<>();
 
+        // start state
+        NFAState current = new NFAState("");
         for (NFAState state : states) {
-            for (Character c : s.toCharArray()) {
-                Set<NFAState> z = state.transitions.get(c);
+            if (isStart(state.getName())) {
+                current = state;
             }
         }
+
+        for (Character c : s.toCharArray()) {
+            Set<NFAState> nextStates = current.getNextState(c);
+            for (NFAState state : nextStates) {
+                Set<NFAState> closureStates = eClosure(state);
+            }
+        }
+
+
+//
+//        for (NFAState state : states) {
+//            for (Character c : s.toCharArray()) {
+//                Set<NFAState> z = state.transitions.get(c);
+//            }
+//        }
 
         return retVal;
     }

@@ -9,6 +9,7 @@ public class NFAState extends State {
     /* instance variables */
     public LinkedHashMap<Character, LinkedHashSet<NFAState>> transitions;
     LinkedHashSet<NFAState> eTransitions = new LinkedHashSet<>();
+    public String name;
 
     /**
      * Constructor to each State's multiple path options
@@ -17,6 +18,7 @@ public class NFAState extends State {
      */
     public NFAState(String name) {
         super(name);
+        this.name = name;
         transitions = new LinkedHashMap<>();
 //        transitionTable = new LinkedHashMap<>();
     }
@@ -57,5 +59,18 @@ public class NFAState extends State {
      */
     public Set<NFAState> getEpsilonTransitions() {
         return eTransitions;
+    }
+
+    public Set<NFAState> getNextState(char symbol) {
+        return transitions.getOrDefault(symbol, null);
+    }
+
+    /**
+     * toString for an NFA State returns name of the state
+     *
+     * @return - name
+     */
+    public String toString() {
+        return name;
     }
 }
