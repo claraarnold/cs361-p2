@@ -111,42 +111,98 @@ public class NFA implements NFAInterface {
 
     @Override
     public boolean accepts(String s) {
-        Set<NFAState> currStates = eClosure(getState(startState)); // initial state
-        Queue<Set<NFAState>> queue = new LinkedList<>();
-        queue.add(currStates);
+        Queue<NFAState> stateQueue = new LinkedList<>();
 
-        int currentPosition = 0;
+        //find start & add to queue
+        NFAState current = new NFAState("");
+        for (NFAState state : states) {
+            if (isStart(state.getName())) {
+                current = state;
+            }
+        }
+        stateQueue.add(current);
 
-        while(!queue.isEmpty() && currentPosition < s.length()) {
-            char currentSigma = s.charAt(currentPosition);
-            Set<NFAState> nextStates = new HashSet<>();
+        Set<NFAState> visited = new LinkedHashSet<>();
 
-            for(NFAState state : currStates) {
-                Set<NFAState> transitionStates = transitions.get(currentSigma); // getting transitions for sigma
+        boolean accepted = false;
 
-                if(transitionStates != null) {
-                    nextStates.addAll(transitionStates);
+        while (!stateQueue.isEmpty()) {
+            NFAState currentState = stateQueue.poll();
+
+            if (visited.contains(currentState)) { continue; }
+
+            visited.add(currentState);
+
+            if (isFinal(currentState.getName())) { // no longer checking if s.isEmpty()
+                accepted = true;
+            } else {
+                accepted = false;
+            }
+
+            for (char c : s.toCharArray()) {
+                boolean hasRegularTransition = false;
+
+                if (currentState.transitions.containsKey(c)) {
+                    stateQueue.addAll(currentState.transitions.get(c));
+                    hasRegularTransition = true;
+                }
+
+                for (NFAState nextState : eClosure(currentState)) {
+                    if (!stateQueue.contains(nextState)) {
+                        stateQueue.add(nextState);
+                    }
+                }
+
+                if (!hasRegularTransition) {
+                    break;
                 }
             }
 
-            if(nextStates.isEmpty()) {
-                return false; // no possible transitions for current sigma
-            }
-
-            queue.add(nextStates);
-            currStates = nextStates;
-            currentPosition++;
-        }
-
-        for(Set<NFAState> statesSet : queue) {
-            for(NFAState state : statesSet) {
-                if(isFinal(state.getName())) {
-                    return true; // at least one copy is in accept state
-                }
+            if (isFinal(currentState.getName())) {
+                accepted = true;
             }
         }
 
-        return false; // no accept state found
+        return accepted;
+
+//        Set<NFAState> currStates = eClosure(getState(startState)); // initial state
+//        Queue<Set<NFAState>> queue = new LinkedList<>();
+//        queue.add(currStates);
+//
+//        int currentPosition = 0;
+//
+//        while(!queue.isEmpty() && currentPosition < s.length()) {
+//            char currentSigma = s.charAt(currentPosition);
+//            Set<NFAState> nextStates = new HashSet<>();
+//
+//            for(NFAState state : currStates) {
+//                Set<NFAState> transitionStates = transitions.get(currentSigma); // getting transitions for sigma
+//
+//                if(transitionStates != null) {
+//                    nextStates.addAll(transitionStates);
+//                }
+//            }
+//
+//            if(nextStates.isEmpty()) {
+//                return false; // no possible transitions for current sigma
+//            }
+//
+//            queue.add(nextStates);
+//            currStates = nextStates;
+//            currentPosition++;
+//        }
+//
+//        for(Set<NFAState> statesSet : queue) {
+//            for(NFAState state : statesSet) {
+//                if(isFinal(state.getName())) {
+//                    return true; // at least one copy is in accept state
+//                }
+//            }
+//        }
+//
+//        return false; // no accept state found
+
+
 
 //        boolean retVal = false;
 //        NFAState current = new NFAState("");
@@ -248,7 +304,7 @@ public class NFA implements NFAInterface {
 
     @Override
     public int maxCopies(String s) {
-        int maxCopies = 1;
+        int maxCopies = 0;
         int compVal = 0;
         Set<NFAState> visited = new LinkedHashSet<>();
 //        Set<NFAState> startState = new LinkedHashSet<>();
@@ -267,32 +323,46 @@ public class NFA implements NFAInterface {
 
         while (!queue.isEmpty()) {
             NFAState currentState = queue.poll();
+//            if (!visited.contains(currentState)) {
+                visited.add(currentState);
+//            }
+//            maxCopies++;
 
-                for (Character c : s.toCharArray()) {
-                    try {
-                        Set<NFAState> nextStates = currentState.getNextState(c);
-                        for (NFAState nextState : nextStates) {
-                            if (!visited.contains(nextState)) {
-                                queue.add(nextState);
-                                visited.add(nextState);
-                            }
-                        }
-                    } catch (NullPointerException ignored) {
-                        // ignored catch body
+            for (Character c : s.toCharArray()) {
+                Set<NFAState> nextStates = currentState.getNextState(c);
+                for (NFAState nextState : nextStates) {
+                    if (!visited.contains(nextState)) {
+                        queue.add(nextState);
+                        visited.add(nextState);
                     }
                 }
+            }
 
-                Set<NFAState> epsilonStates = eClosure(currentState);
-                for (NFAState epsilonState : epsilonStates) {
-                    if (!visited.contains(epsilonState)) {
-                        queue.add(epsilonState);
-                        visited.add(epsilonState);
-                    }
-                }
-                Set<NFAState> eTransitions = eClosure(currentState);
-                queue.addAll(eTransitions);
 
-                maxCopies = Math.max(maxCopies, queue.size() - 1);
+
+
+
+
+
+//                for (Character c : s.toCharArray()) {
+//                    try {
+//                        Set<NFAState> nextStates = currentState.getNextState(c);
+//                        for (NFAState nextState : nextStates) {
+//                            if (!visited.contains(nextState)) {
+//                                queue.add(nextState);
+//                                visited.add(nextState);
+//
+//                                Set<NFAState> eTransitions = eClosure(currentState);
+//                                queue.addAll(eTransitions);
+//                            }
+//                        }
+//                    } catch (NullPointerException ignored) {
+//                        // ignored catch body
+//                    }
+//                }
+
+
+//                maxCopies = Math.max(maxCopies, queue.size());
             }
         return maxCopies;
     }
